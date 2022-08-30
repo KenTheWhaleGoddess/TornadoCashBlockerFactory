@@ -8,19 +8,15 @@ pragma solidity >=0.7.0 <0.9.0;
  */
 contract TCashBlocker {
 
-    modifier onlyFactory() {
-        require(msg.sender == factory, "not the factory");
-        _;
-    }
+    bool wasInit;
     address receiver;
-    address factory;
 
     mapping(address => bool) banned;
 
-    function init(address _receiver, address _factory, address[] calldata banlist) external {
-        require(receiver == address(0) && factory == address(0), "init function");
+    function init(address _receiver, address[] calldata banlist) external {
+        require(!wasInit, "init function");
+        wasInit = true;
         receiver = _receiver;
-        factory = _factory;
 
         for(uint i = 0; i < banlist.length; i++) {
             banned[banlist[i]] = true;
