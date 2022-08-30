@@ -21,7 +21,7 @@ contract TCashBlockerFactory is Ownable {
         address impl = LibClone.clone(currentImplementation);
 
         ITCashBlocker implStruct = ITCashBlocker(impl);
-        implStruct.init(_receiver, address(this), banset.values());
+        implStruct.init(_receiver, banset.values());
         madeBy[msg.sender].add(impl);
         return impl;
     } 
